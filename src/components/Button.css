@@ -1,0 +1,9 @@
+.style-button {
+  width: 48px;
+  height: 48px;
+  font-size: 16px;
+}
+
+.style-button:disabled {
+  opacity: 0.4;
+}
