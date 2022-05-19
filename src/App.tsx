@@ -1,24 +1,24 @@
-import React, { useCallback, ChangeEventHandler, FocusEventHandler, useState } from 'react';
-import { Button } from './components/Button';
+import React, { useState } from "react";
+import { CustomInputNumber } from "./features/CustomInputNumber";
 
 function App() {
   const [count, setCount] = useState(0);
-
-  const onChange: ChangeEventHandler<HTMLInputElement> = useCallback((e) => {
-    setCount(Number(e.currentTarget.value));
-    console.log(e.currentTarget.value);
-  }, []);
-
-  const onBlur: FocusEventHandler<HTMLInputElement> = useCallback((e) => {
-    console.log(e.currentTarget.value);
-  }, []);
+  const [step] = useState(1);
+  const [max] = useState(10);
+  const [min] = useState(0);
+  const [, setName] = useState("");
+  const [, setCurrentValue] = useState(0);
 
   return (
-    <div>
-      <h2>Welcome to React App</h2>
-      <h3>Date : {new Date().toDateString()}</h3>
-      <Button onChange={onChange} onBlur={onBlur} min={0} max={10} step={0} name="sss" value={count} disabled={false} />
-    </div>
+    <CustomInputNumber
+      count={count}
+      step={step}
+      max={max}
+      min={min}
+      setCount={setCount}
+      setName={setName}
+      setCurrentValue={setCurrentValue}
+    />
   );
 }
 
