@@ -26,10 +26,13 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
     [max, min, setCount]
   );
 
-  const onBlur: FocusEventHandler<HTMLInputElement> = useCallback((e) => {
-    setName(e.target.name);
-    setCurrentValue(Number(e.target.value));
-  }, [setCurrentValue, setName]);
+  const onBlur: FocusEventHandler<HTMLInputElement> = useCallback(
+    (e) => {
+      setName(e.target.name);
+      setCurrentValue(Number(e.target.value));
+    },
+    [setCurrentValue, setName]
+  );
 
   const onAddStart: MouseEventHandler<HTMLDivElement> = useCallback(() => {
     let _count = count;
@@ -64,7 +67,7 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
   }, [count, step, min, setCount]);
 
   const onStop: MouseEventHandler<HTMLDivElement> = useCallback(() => {
-    console.log('onStop');
+    console.log("onStop");
     clearInterval(timer);
   }, []);
 
