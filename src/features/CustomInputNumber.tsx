@@ -1,5 +1,5 @@
-import React, { useCallback, ChangeEventHandler, FocusEventHandler, MouseEventHandler } from "react";
-import { Counter } from "../components/Counter";
+import React, { useCallback, ChangeEventHandler, FocusEventHandler, MouseEventHandler, useRef, useEffect, useState } from "react";
+import { Counter, RefCounter } from "../components/Counter";
 import { Button } from "../components/Button";
 
 type CustomInputNumberProps = {
@@ -13,8 +13,17 @@ type CustomInputNumberProps = {
 };
 
 let timer: NodeJS.Timer;
+
 export const CustomInputNumber = (props: CustomInputNumberProps) => {
   const { count, step, max, min, setCount, setName, setCurrentValue } = props;
+  const inputNumberEl = useRef<HTMLInputElement>(null);
+  const [isActive, setIsActive] = useState(false);
+
+  const onStop = useCallback(() => {
+    console.log('onStop');
+    setIsActive(false);
+    clearInterval(timer);
+  }, []);
 
   const onChange: ChangeEventHandler<HTMLInputElement> = useCallback(
     (e) => {
@@ -35,6 +44,7 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
   );
 
   const onAddStart: MouseEventHandler<HTMLDivElement> = useCallback(() => {
+    setIsActive(true);
     let _count = count;
     if (_count + step <= max) {
       _count += step;
@@ -42,15 +52,16 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
     }
     timer = setInterval(() => {
       if (_count + step > max) {
-        clearInterval(timer);
+        onStop();
         return;
       }
       _count += step;
       setCount((oldCount) => oldCount + step);
     }, 100);
-  }, [count, max, setCount, step]);
+  }, [count, max, onStop, setCount, step]);
 
   const onReduceStart: MouseEventHandler<HTMLDivElement> = useCallback(() => {
+    setIsActive(true);
     let _count = count;
     if (_count - step >= min) {
       _count -= step;
@@ -58,24 +69,27 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
     }
     timer = setInterval(() => {
       if (_count - step < min) {
-        clearInterval(timer);
+        onStop();
         return;
       }
       _count -= step;
       setCount((oldCount) => oldCount - step);
     }, 100);
-  }, [count, step, min, setCount]);
+  }, [count, step, min, setCount, onStop]);
 
-  const onStop: MouseEventHandler<HTMLDivElement> = useCallback(() => {
-    console.log("onStop");
-    clearInterval(timer);
-  }, []);
+  useEffect(() => {
+    if (isActive) inputNumberEl.current?.focus();
+    else inputNumberEl.current?.blur();
+  }, [isActive])
+  
 
   return (
     <div>
-      <Button name="reduce" disabled={count <= min} value="-" onMouseDown={onReduceStart} onMouseUp={onStop} />
-      <Counter name="number-input" value={count} disabled={false} onChange={onChange} onBlur={onBlur} min={min} max={max} step={step} />
-      <Button name="add" disabled={count >= max} value="+" onMouseDown={onAddStart} onMouseUp={onStop} />
+      <label>
+        <Button name="reduce" disabled={count <= min} value="-" onMouseDown={onReduceStart} onMouseUp={onStop} />
+        <RefCounter ref={inputNumberEl} name="number-input" disabled={false} value={count} onChange={onChange} onBlur={onBlur} min={min} max={max} step={step} />
+        <Button name="add" disabled={count >= max} value="+" onMouseDown={onAddStart} onMouseUp={onStop} />
+      </label>
     </div>
   );
 };
