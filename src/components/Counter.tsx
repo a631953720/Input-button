@@ -1,5 +1,5 @@
 import React, { ChangeEventHandler, FocusEventHandler } from 'react';
-import '../css/Counter.css';
+import '../css/components.css';
 
 type CounterProps = {
   min: number;
