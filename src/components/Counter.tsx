@@ -15,17 +15,20 @@ type CounterProps = {
 export const Counter = (props: CounterProps) => {
   const { min, max, step, name, value, disabled, onChange, onBlur } = props;
   return (
-    <input
-      className="style-counter"
-      type="number"
-      min={min}
-      max={max}
-      step={step}
-      name={name}
-      value={value}
-      disabled={disabled}
-      onChange={onChange}
-      onBlur={onBlur}
-    />
+    // label warning: Form <input> elements must have labels
+    <label>
+      <input
+        className="style-counter"
+        type="number"
+        min={min}
+        max={max}
+        step={step}
+        name={name}
+        value={value}
+        disabled={disabled}
+        onChange={onChange}
+        onBlur={onBlur}
+      />
+    </label>
   );
 };
