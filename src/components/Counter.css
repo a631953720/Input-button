@@ -1,9 +1,12 @@
-.style-counter {
+.style-counter,
+.style-button {
   width: 48px;
   height: 48px;
   font-size: 16px;
+  box-sizing: border-box;
 }
 
-.style-counter:disabled {
+.style-counter:disabled,
+.style-button:disabled {
   opacity: 0.4;
 }
