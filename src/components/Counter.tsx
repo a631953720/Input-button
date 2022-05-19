@@ -24,10 +24,7 @@ export const Counter = (props: CounterProps) => {
       name={name}
       value={value}
       disabled={disabled}
-      onChange={(e)=>{
-        console.log(123);
-        onChange(e);
-      }}
+      onChange={onChange}
       onBlur={onBlur}
     />
   );
