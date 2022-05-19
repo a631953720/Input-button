@@ -5,9 +5,15 @@
   font-size: 16px;
   box-sizing: border-box;
   margin: 0 8px;
+  border: 1px solid #000;
+  border-radius: 4px;
 }
 
 .style-counter:disabled,
 .style-button:disabled {
   opacity: 0.4;
+}
+
+.style-counter:focus {
+  border: 2px solid #000;
 }
