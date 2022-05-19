@@ -4,6 +4,7 @@
   height: 48px;
   font-size: 16px;
   box-sizing: border-box;
+  margin: 0 8px;
 }
 
 .style-counter:disabled,
