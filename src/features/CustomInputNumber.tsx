@@ -73,9 +73,9 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
 
   return (
     <div>
-      <Button name="reduce" disabled={false} value="-" onMouseDown={onReduceStart} onMouseUp={onStop} />
+      <Button name="reduce" disabled={count <= min} value="-" onMouseDown={onReduceStart} onMouseUp={onStop} />
       <Counter name="number-input" value={count} disabled={false} onChange={onChange} onBlur={onBlur} min={min} max={max} step={step} />
-      <Button name="add" disabled={false} value="+" onMouseDown={onAddStart} onMouseUp={onStop} />
+      <Button name="add" disabled={count >= max} value="+" onMouseDown={onAddStart} onMouseUp={onStop} />
     </div>
   );
 };
