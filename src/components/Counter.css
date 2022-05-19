@@ -1,9 +1,9 @@
-.style-button {
+.style-counter {
   width: 48px;
   height: 48px;
   font-size: 16px;
 }
 
-.style-button:disabled {
+.style-counter:disabled {
   opacity: 0.4;
 }

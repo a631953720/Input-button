@@ -1,7 +1,7 @@
 import React, { ChangeEventHandler, FocusEventHandler } from 'react';
-import './Button.css';
+import './Counter.css';
 
-type ButtonProps = {
+type CounterProps = {
   min: number;
   max: number;
   step: number;
@@ -12,11 +12,11 @@ type ButtonProps = {
   onBlur: FocusEventHandler<HTMLInputElement>;
 };
 
-export const Button = (props: ButtonProps) => {
+export const Counter = (props: CounterProps) => {
   const { min, max, step, name, value, disabled, onChange, onBlur } = props;
   return (
     <input
-      className="style-button"
+      className="style-counter"
       type="number"
       min={min}
       max={max}
