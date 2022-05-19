@@ -1,7 +1,7 @@
 import React, { InputHTMLAttributes, Ref, forwardRef } from "react";
 import "../css/components.css";
 
-export const Counter = (props: InputHTMLAttributes<HTMLInputElement>, ref?: Ref<HTMLInputElement>) => {
+const Counter = (props: InputHTMLAttributes<HTMLInputElement>, ref?: Ref<HTMLInputElement>) => {
   const { min, max, step, name, value, disabled, onChange, onBlur } = props;
   return (
     // label warning: Form <input> elements must have labels

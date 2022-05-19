@@ -1,5 +1,5 @@
 import React, { useCallback, ChangeEventHandler, FocusEventHandler, MouseEventHandler, useRef, useEffect, useState } from "react";
-import { Counter, RefCounter } from "../components/Counter";
+import { RefCounter } from "../components/Counter";
 import { Button } from "../components/Button";
 
 type CustomInputNumberProps = {
