@@ -8,16 +8,17 @@ type CustomInputNumberProps = {
   max: number;
   min: number;
   setCount: (updateState: (oldCount: number) => number) => void;
+  setName: (name: string) => void;
+  setCurrentValue: (value: number) => void;
 };
 
 let timer: NodeJS.Timer;
 export const CustomInputNumber = (props: CustomInputNumberProps) => {
-  const { count, step, max, min, setCount } = props;
+  const { count, step, max, min, setCount, setName, setCurrentValue } = props;
 
   const onChange: ChangeEventHandler<HTMLInputElement> = useCallback(
     (e) => {
       const newCount = Number(e.target.value);
-      console.log(newCount);
       if (newCount >= min && newCount <= max) {
         setCount(() => newCount);
       }
@@ -26,9 +27,9 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
   );
 
   const onBlur: FocusEventHandler<HTMLInputElement> = useCallback((e) => {
-    console.log(e.target.name);
-    console.log(e.target.value);
-  }, []);
+    setName(e.target.name);
+    setCurrentValue(Number(e.target.value));
+  }, [setCurrentValue, setName]);
 
   const onAddStart: MouseEventHandler<HTMLDivElement> = useCallback(() => {
     let _count = count;
