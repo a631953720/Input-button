@@ -1,20 +1,19 @@
 import React from 'react'
 
 type RoomTitleProps = {
-  className?: string;
   guest: number;
   room: number;
   unSelectedGuest: number;
 };
 
 export const RoomTitle = (props: RoomTitleProps) => {
-  const { guest, room, unSelectedGuest, className } = props;
+  const { guest, room, unSelectedGuest } = props;
   return (
-    <div className={className}>
-      <div>
+    <div className="all-room-list-title">
+      <div className="all-guest-status">
         住客人數: {guest}人 / {room}房
       </div>
-      <div>尚未分配人數: {unSelectedGuest}</div>
+      <div className="all-guest-unselected">尚未分配人數: {unSelectedGuest} 人</div>
     </div>
   );
 };

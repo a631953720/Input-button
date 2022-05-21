@@ -52,13 +52,12 @@ export const RoomAllocation = (props: RoomAllocationProps) => {
 
   return (
     <div className="room-list-wrapper">
-      <RoomTitle className="room-list-title" guest={guest} room={room} unSelectedGuest={handleUnselectedGuest()} />
+      <RoomTitle guest={guest} room={room} unSelectedGuest={handleUnselectedGuest()} />
       <div className="room-list-body">
         {result.map((v, i) => {
           return (
             <RoomComponent
               key={i}
-              className="room-list-item"
               max={4}
               disable={isAllGuestSelectedRoom()}
               // can choose only disable add or reduce button

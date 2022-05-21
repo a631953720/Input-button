@@ -82,7 +82,7 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
   }, [disable, disableAdd, disableReduce]);
 
   return (
-    <div>
+    <div className="custom-counter">
       <label>
         <Button
           name="reduce"
