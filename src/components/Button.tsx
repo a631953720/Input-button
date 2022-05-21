@@ -5,7 +5,7 @@ type ButtonProps = {
   name: string;
   disabled: boolean;
   value: string;
-  onClick?: MouseEventHandler<HTMLDivElement>;
+  onClick?: MouseEventHandler<HTMLInputElement>;
   onMouseUp?: MouseEventHandler<HTMLInputElement>;
   onMouseDown?: MouseEventHandler<HTMLInputElement>;
 };
