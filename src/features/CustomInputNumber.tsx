@@ -20,7 +20,7 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
   const [isActive, setIsActive] = useState(false);
 
   const onStop = useCallback(() => {
-    console.log('onStop');
+    console.log("onStop");
     setIsActive(false);
     clearInterval(timer);
   }, []);
@@ -80,15 +80,24 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
   useEffect(() => {
     if (isActive) inputNumberEl.current?.focus();
     else inputNumberEl.current?.blur();
-  }, [isActive])
-  
+  }, [isActive]);
 
   return (
     <div>
       <label>
-        <Button name="reduce" disabled={count <= min} value="-" onMouseDown={onReduceStart} onMouseUp={onStop} />
-        <RefCounter ref={inputNumberEl} name="number-input" disabled={false} value={count} onChange={onChange} onBlur={onBlur} min={min} max={max} step={step} />
-        <Button name="add" disabled={count >= max} value="+" onMouseDown={onAddStart} onMouseUp={onStop} />
+        <Button name="reduce" disabled={count - step <= min} value="-" onMouseDown={onReduceStart} onMouseUp={onStop} />
+        <RefCounter
+          ref={inputNumberEl}
+          name="number-input"
+          disabled={false}
+          value={count}
+          onChange={onChange}
+          onBlur={onBlur}
+          min={min}
+          max={max}
+          step={step}
+        />
+        <Button name="add" disabled={count + step >= max} value="+" onMouseDown={onAddStart} onMouseUp={onStop} />
       </label>
     </div>
   );
