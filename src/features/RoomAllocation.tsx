@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { Room } from "../interface/room";
 import { RoomComponent } from "./RoomComponent";
-import { RoomTitle } from "./RoomTitle";
+import { RoomTitle } from "../components/RoomTitle";
 
 type RoomAllocationProps = {
   guest: number;
