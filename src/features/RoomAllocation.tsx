@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { Room } from "../interface/room";
 import { RoomComponent } from "./RoomComponent";
+import { RoomTitle } from "./RoomTitle";
 
 type RoomAllocationProps = {
   guest: number;
@@ -21,7 +22,7 @@ export const RoomAllocation = (props: RoomAllocationProps) => {
     return count;
   }, [result]);
 
-  const handleSelected = useCallback(() => {
+  const handleUnselectedGuest = useCallback(() => {
     return guest - getAllGuestCount();
   }, [getAllGuestCount, guest]);
 
@@ -50,17 +51,14 @@ export const RoomAllocation = (props: RoomAllocationProps) => {
   }, [room]);
 
   return (
-    <div>
-      <div>
-        住客人數: {guest}人 / {room}房
-      </div>
-      <div>尚未分配人數: {handleSelected()}</div>
-      <hr></hr>
-      <div>
+    <div className="room-list-wrapper">
+      <RoomTitle className="room-list-title" guest={guest} room={room} unSelectedGuest={handleUnselectedGuest()} />
+      <div className="room-list-body">
         {result.map((v, i) => {
           return (
             <RoomComponent
               key={i}
+              className="room-list-item"
               max={4}
               disable={isAllGuestSelectedRoom()}
               // can choose only disable add or reduce button

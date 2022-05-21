@@ -3,6 +3,7 @@ import { CustomInputNumber } from "./CustomInputNumber";
 import { Room } from "../interface/room";
 
 type RoomComponentProps = {
+  className?: string;
   room: Room;
   max: number;
   disable?: boolean;
@@ -13,7 +14,7 @@ type RoomComponentProps = {
 };
 
 export const RoomComponent = (props: RoomComponentProps) => {
-  const { room, max, step, disable = false, disableAdd = false, disableReduce = false, onChange } = props;
+  const { room, max, step, disable = false, disableAdd = false, disableReduce = false, onChange, className } = props;
   const { adult, child } = room;
 
   const allCount = useCallback(() => {
@@ -41,10 +42,10 @@ export const RoomComponent = (props: RoomComponentProps) => {
   );
 
   return (
-    <div>
-      <div>房間: {allCount()} 人</div>
-      <div>
-        <div>大人</div>
+    <div className={className}>
+      <div className="room-title">房間: {allCount()} 人</div>
+      <div className="room-body">
+        <div className="guest-type">大人</div>
         <div>年齡 20+</div>
         <CustomInputNumber
           count={adult}
@@ -60,7 +61,7 @@ export const RoomComponent = (props: RoomComponentProps) => {
           }}
           name="adult"
         />
-        <div>小孩</div>
+        <div className="guest-type">小孩</div>
         <CustomInputNumber
           count={child}
           step={step}
