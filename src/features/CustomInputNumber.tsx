@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, MouseEventHandler, useRef, useEffect, FocusEventHandler, useCallback } from "react";
+import React, { useRef, useEffect, FocusEventHandler, useCallback } from "react";
 import { RefCounter } from "../components/Counter";
 import { Button } from "../components/Button";
 
@@ -11,16 +11,21 @@ type CustomInputNumberProps = {
   value: number;
   disable: boolean;
   name: string;
-  onChange: ChangeEventHandler<HTMLInputElement>;
+  onChange: (value: number) => void;
   onBlur: FocusEventHandler<HTMLInputElement>;
-  onAdd: MouseEventHandler<HTMLInputElement>;
-  onReduce: MouseEventHandler<HTMLInputElement>;
   setIsFocus: (v: boolean) => void;
 };
 
 export const CustomInputNumber = (props: CustomInputNumberProps) => {
-  const { isFocus, name, disable, value, count, step, max, min, onAdd, onBlur, onChange, onReduce, setIsFocus } = props;
+  const { isFocus, name, disable, value, count, step, max, min, onBlur, onChange, setIsFocus } = props;
   const inputNumberEl = useRef<HTMLInputElement>(null);
+
+  const onAdd = useCallback(() => {
+    onChange(count + step);
+  }, [count, onChange, step]);
+  const onReduce = useCallback(() => {
+    onChange(count - step);
+  }, [count, onChange, step]);
 
   const focusEvent = useCallback(() => {
     setIsFocus(true);
@@ -41,9 +46,9 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
           name="reduce"
           disabled={count - step < min || disable}
           value="-"
-          onClick={(e) => {
+          onClick={() => {
             if (!disable) {
-              onReduce(e);
+              onReduce();
               focusEvent();
             }
           }}
@@ -53,7 +58,9 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
           name={name}
           disabled={disable}
           value={value}
-          onChange={onChange}
+          onChange={(e) => {
+            onChange(Number(e.target.value));
+          }}
           onBlur={onBlur}
           min={min}
           max={max}
@@ -63,9 +70,9 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
           name="add"
           disabled={count + step > max || disable}
           value="+"
-          onClick={(e) => {
+          onClick={() => {
             if (!disable) {
-              onAdd(e);
+              onAdd();
               focusEvent();
             }
           }}
