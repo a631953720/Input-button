@@ -59,6 +59,13 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
     [disable, disableAdd, disableReduce, isLessThanMin, isOverThanMax, value]
   );
 
+  const checkOnChangeValue = useCallback(
+    (_value: number) => {
+      if (_value >= min && _value <= max) onChange(_value);
+    },
+    [max, min, onChange]
+  );
+
   const onAddStart = useCallback(() => {
     let copyValue = value;
     timer = setInterval(() => {
@@ -99,7 +106,7 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
           name={name}
           disabled={disable}
           value={value}
-          onChange={(e) => onChange(Number(e.target.value))}
+          onChange={(e) => checkOnChangeValue(Number(e.target.value))}
           onBlur={onBlur}
           min={min}
           max={max}
