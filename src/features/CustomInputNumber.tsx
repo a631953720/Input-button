@@ -1,4 +1,4 @@
-import React, { useRef, FocusEventHandler, useCallback, useEffect } from "react";
+import React, { useRef, FocusEventHandler, ChangeEventHandler, useCallback, useEffect, ChangeEvent } from "react";
 import { RefCounter } from "../components/Counter";
 import { Button } from "../components/Button";
 
@@ -12,28 +12,29 @@ type CustomInputNumberProps = {
   disableAdd?: boolean;
   disableReduce?: boolean;
   name: string;
-  onChange: (value: number) => void;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
   onBlur?: FocusEventHandler<HTMLInputElement>;
+  setValue: (v: number) => void;
 };
 
 let timer: NodeJS.Timer;
 
 export const CustomInputNumber = (props: CustomInputNumberProps) => {
-  const { name, value, step, max, min, disable = false, disableAdd = false, disableReduce = false, onBlur, onChange } = props;
+  const { name, value, step, max, min, disable = false, disableAdd = false, disableReduce = false, onBlur, onChange, setValue } = props;
   const inputNumberEl = useRef<HTMLInputElement>(null);
 
   const onAdd = useCallback(
     (v: number) => {
-      onChange(v + step);
+      setValue(v + step);
     },
-    [onChange, step]
+    [setValue, step]
   );
 
   const onReduce = useCallback(
     (v: number) => {
-      onChange(v - step);
+      setValue(v - step);
     },
-    [onChange, step]
+    [setValue, step]
   );
 
   const isOverThanMax = useCallback(
@@ -61,9 +62,9 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
 
   const checkOnChangeValue = useCallback(
     (_value: number) => {
-      if (_value >= min && _value <= max) onChange(_value);
+      return _value >= min && _value <= max;
     },
-    [max, min, onChange]
+    [max, min]
   );
 
   const onAddStart = useCallback(() => {
@@ -71,18 +72,29 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
     timer = setInterval(() => {
       if (isOverThanMax(copyValue)) return clearInterval(timer);
       copyValue += step;
-      onChange(copyValue);
+      setValue(copyValue);
     }, 100);
-  }, [isOverThanMax, onChange, step, value]);
+  }, [isOverThanMax, setValue, step, value]);
 
   const onReduceStart = useCallback(() => {
     let copyValue = value;
     timer = setInterval(() => {
       if (isLessThanMin(copyValue)) return clearInterval(timer);
       copyValue -= step;
-      onChange(copyValue);
+      setValue(copyValue);
     }, 100);
-  }, [value, step, onChange, isLessThanMin]);
+  }, [value, isLessThanMin, step, setValue]);
+
+  const handleOnChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const newValue = Number(e.target.value);
+      if (checkOnChangeValue(newValue)) {
+        setValue(newValue);
+        if (onChange) onChange(e);
+      }
+    },
+    [checkOnChangeValue, onChange, setValue]
+  );
 
   useEffect(() => {
     if (disable || disableAdd || disableReduce) clearInterval(timer);
@@ -106,7 +118,7 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
           name={name}
           disabled={disable}
           value={value}
-          onChange={(e) => checkOnChangeValue(Number(e.target.value))}
+          onChange={handleOnChange}
           onBlur={onBlur}
           min={min}
           max={max}

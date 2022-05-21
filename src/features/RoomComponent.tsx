@@ -9,11 +9,11 @@ type RoomComponentProps = {
   disableAdd?: boolean;
   disableReduce?: boolean;
   step: number;
-  onChange: (room: Room) => void;
+  onResultUpdate: (room: Room) => void;
 };
 
 export const RoomComponent = (props: RoomComponentProps) => {
-  const { room, max, step, disable = false, disableAdd = false, disableReduce = false, onChange } = props;
+  const { room, max, step, disable = false, disableAdd = false, disableReduce = false, onResultUpdate } = props;
   const { adult, child } = room;
 
   const allCount = useCallback(() => {
@@ -59,8 +59,11 @@ export const RoomComponent = (props: RoomComponentProps) => {
               disable={disable}
               disableAdd={disableAdd}
               disableReduce={disableReduce}
-              onChange={(value) => {
-                onChange(handleAdult(value));
+              onChange={(e) => {
+                onResultUpdate(handleAdult(Number(e.target.value)));
+              }}
+              setValue={(v)=>{
+                onResultUpdate(handleAdult(v));
               }}
               name="adult"
             />
@@ -78,8 +81,11 @@ export const RoomComponent = (props: RoomComponentProps) => {
               disable={disable}
               disableAdd={disableAdd}
               disableReduce={disableReduce}
-              onChange={(value) => {
-                onChange(handleChild(value));
+              onChange={(e) => {
+                onResultUpdate(handleChild(Number(e.target.value)));
+              }}
+              setValue={(v)=>{
+                onResultUpdate(handleChild(v));
               }}
               name="child"
             />
