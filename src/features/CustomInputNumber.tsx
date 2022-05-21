@@ -8,14 +8,16 @@ type CustomInputNumberProps = {
   max: number;
   min: number;
   value: number;
-  disable: boolean;
+  disable?: boolean;
+  disableAdd?: boolean;
+  disableReduce?: boolean;
   name: string;
   onChange: (value: number) => void;
   onBlur?: FocusEventHandler<HTMLInputElement>;
 };
 
 export const CustomInputNumber = (props: CustomInputNumberProps) => {
-  const { name, disable, value, count, step, max, min, onBlur, onChange } = props;
+  const { name, value, count, step, max, min, disable = false, disableAdd = false, disableReduce = false, onBlur, onChange } = props;
   const inputNumberEl = useRef<HTMLInputElement>(null);
 
   const onAdd = useCallback(() => {
@@ -30,7 +32,7 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
       <label>
         <Button
           name="reduce"
-          disabled={count - step < min || disable}
+          disabled={count - step < min || disable || disableReduce}
           value="-"
           onClick={() => {
             if (!disable) {
@@ -53,7 +55,7 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
         />
         <Button
           name="add"
-          disabled={count + step > max || disable}
+          disabled={count + step > max || disable || disableAdd}
           value="+"
           onClick={() => {
             if (!disable) {

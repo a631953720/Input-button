@@ -5,13 +5,15 @@ import { Room } from "../interface/room";
 type RoomComponentProps = {
   room: Room;
   max: number;
-  disable: boolean;
+  disable?: boolean;
+  disableAdd?: boolean;
+  disableReduce?: boolean;
   step: number;
   onChange: (room: Room) => void;
 };
 
 export const RoomComponent = (props: RoomComponentProps) => {
-  const { room, max, disable, step, onChange } = props;
+  const { room, max, step, disable = false, disableAdd = false, disableReduce = false, onChange } = props;
   const { adult, child } = room;
 
   const allCount = useCallback(() => {
@@ -51,6 +53,8 @@ export const RoomComponent = (props: RoomComponentProps) => {
           min={1}
           value={adult}
           disable={disable}
+          disableAdd={disableAdd}
+          disableReduce={disableReduce}
           onChange={(value) => {
             onChange(handleAdult(value));
           }}
@@ -64,6 +68,8 @@ export const RoomComponent = (props: RoomComponentProps) => {
           min={0}
           value={child}
           disable={disable}
+          disableAdd={disableAdd}
+          disableReduce={disableReduce}
           onChange={(value) => {
             onChange(handleChild(value));
           }}

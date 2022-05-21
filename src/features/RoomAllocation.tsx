@@ -73,6 +73,8 @@ export const RoomAllocation = (props: RoomAllocationProps) => {
                 key={i}
                 max={4}
                 disable={isAllGuestSelectedRoom()}
+                // can choose only disable add or reduce button
+                // disableAdd={isAllGuestSelectedRoom()}
                 step={1}
                 room={v}
                 onChange={(_room) => {
