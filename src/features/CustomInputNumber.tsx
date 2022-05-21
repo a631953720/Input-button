@@ -1,9 +1,8 @@
-import React, { useRef, useEffect, FocusEventHandler, useCallback } from "react";
+import React, { useRef, FocusEventHandler, useCallback } from "react";
 import { RefCounter } from "../components/Counter";
 import { Button } from "../components/Button";
 
 type CustomInputNumberProps = {
-  isFocus: boolean;
   count: number;
   step: number;
   max: number;
@@ -12,12 +11,11 @@ type CustomInputNumberProps = {
   disable: boolean;
   name: string;
   onChange: (value: number) => void;
-  onBlur: FocusEventHandler<HTMLInputElement>;
-  setIsFocus: (v: boolean) => void;
+  onBlur?: FocusEventHandler<HTMLInputElement>;
 };
 
 export const CustomInputNumber = (props: CustomInputNumberProps) => {
-  const { isFocus, name, disable, value, count, step, max, min, onBlur, onChange, setIsFocus } = props;
+  const { name, disable, value, count, step, max, min, onBlur, onChange } = props;
   const inputNumberEl = useRef<HTMLInputElement>(null);
 
   const onAdd = useCallback(() => {
@@ -26,18 +24,6 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
   const onReduce = useCallback(() => {
     onChange(count - step);
   }, [count, onChange, step]);
-
-  const focusEvent = useCallback(() => {
-    setIsFocus(true);
-    setTimeout(() => {
-      setIsFocus(false);
-    }, 50);
-  }, [setIsFocus]);
-
-  useEffect(() => {
-    if (isFocus) inputNumberEl.current?.focus();
-    else inputNumberEl.current?.blur();
-  }, [isFocus, value]);
 
   return (
     <div>
@@ -49,7 +35,6 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
           onClick={() => {
             if (!disable) {
               onReduce();
-              focusEvent();
             }
           }}
         />
@@ -73,7 +58,6 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
           onClick={() => {
             if (!disable) {
               onAdd();
-              focusEvent();
             }
           }}
         />
