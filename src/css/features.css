@@ -60,6 +60,7 @@
 
 .guest-counter-with-title span {
   font-size: 20px;
+  font-weight: 600;
 }
 
 .guest-counter-with-title div:last-child {
