@@ -1,5 +1,4 @@
 import React, { InputHTMLAttributes, Ref, forwardRef } from "react";
-import "../css/components.css";
 
 const Counter = (props: InputHTMLAttributes<HTMLInputElement>, ref?: Ref<HTMLInputElement>) => {
   const { min, max, step, name, value, disabled, onChange, onBlur } = props;
