@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { Room } from "../interface/room";
 import { RoomComponent } from "./RoomComponent";
 
@@ -10,11 +10,7 @@ type RoomAllocationProps = {
 
 export const RoomAllocation = (props: RoomAllocationProps) => {
   const { guest, room, onChange } = props;
-  const [result, setResult] = useState<Room[]>([
-    { adult: 1, child: 0 },
-    { adult: 1, child: 0 },
-    { adult: 1, child: 0 },
-  ]);
+  const [result, setResult] = useState<Room[]>([]);
 
   const getAllGuestCount = useCallback(() => {
     let count = 0;
@@ -44,6 +40,14 @@ export const RoomAllocation = (props: RoomAllocationProps) => {
     },
     [onChange, result]
   );
+
+  useEffect(() => {
+    const initRoomState: Room[] = [];
+    for (let i = 0; i < room; i++) {
+      initRoomState.push({ adult: 1, child: 0 });
+    }
+    setResult(initRoomState);
+  }, [room]);
 
   return (
     <div>
