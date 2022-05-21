@@ -50,7 +50,7 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
     [min, step]
   );
 
-  const checkCanAddOrReduce = useCallback(
+  const checkAddOrReduceIsDisable = useCallback(
     (type: "add" | "reduce") => {
       if (type === "add") return isOverThanMax(value) || disable || disableAdd;
       if (type === "reduce") return isLessThanMin(value) || disable || disableReduce;
@@ -86,11 +86,10 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
       <label>
         <Button
           name="reduce"
-          disabled={checkCanAddOrReduce("reduce")}
+          disabled={checkAddOrReduceIsDisable("reduce")}
           value="-"
           onClick={() => {
-            if (checkCanAddOrReduce("reduce")) return;
-            onReduce(value);
+            if (!checkAddOrReduceIsDisable("reduce")) onReduce(value);
           }}
           onMouseDown={() => onReduceStart()}
           onMouseUp={() => clearInterval(timer)}
@@ -108,11 +107,10 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
         />
         <Button
           name="add"
-          disabled={checkCanAddOrReduce("add")}
+          disabled={checkAddOrReduceIsDisable("add")}
           value="+"
           onClick={() => {
-            if (checkCanAddOrReduce("add")) return;
-            onAdd(value);
+            if (!checkAddOrReduceIsDisable("add")) onAdd(value);
           }}
           onMouseDown={() => onAddStart()}
           onMouseUp={() => clearInterval(timer)}
