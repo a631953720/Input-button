@@ -1,4 +1,4 @@
-import React, { useRef, FocusEventHandler, useCallback } from "react";
+import React, { useRef, FocusEventHandler, useCallback, useEffect } from "react";
 import { RefCounter } from "../components/Counter";
 import { Button } from "../components/Button";
 
@@ -16,28 +16,92 @@ type CustomInputNumberProps = {
   onBlur?: FocusEventHandler<HTMLInputElement>;
 };
 
+let timer: NodeJS.Timer;
+
 export const CustomInputNumber = (props: CustomInputNumberProps) => {
-  const { name, value, count, step, max, min, disable = false, disableAdd = false, disableReduce = false, onBlur, onChange } = props;
+  const { name, value, step, max, min, disable = false, disableAdd = false, disableReduce = false, onBlur, onChange } = props;
   const inputNumberEl = useRef<HTMLInputElement>(null);
 
-  const onAdd = useCallback(() => {
-    onChange(count + step);
-  }, [count, onChange, step]);
-  const onReduce = useCallback(() => {
-    onChange(count - step);
-  }, [count, onChange, step]);
+  const onAdd = useCallback(
+    (v: number) => {
+      onChange(v + step);
+    },
+    [onChange, step]
+  );
+
+  const onReduce = useCallback(
+    (v: number) => {
+      onChange(v - step);
+    },
+    [onChange, step]
+  );
+
+  const isOverThanMax = useCallback(
+    (v: number) => {
+      return v + step > max;
+    },
+    [max, step]
+  );
+
+  const isLessThanMin = useCallback(
+    (v: number) => {
+      return v - step < min;
+    },
+    [min, step]
+  );
+
+  const checkCanAddOrReduce = useCallback(
+    (type: 'add' | 'reduce') => {
+      if (type === 'add') {
+        return isOverThanMax(value) || disable || disableAdd;
+      }
+      if (type === 'reduce') {
+        return isLessThanMin(value) || disable || disableReduce;
+      }
+      return false;
+    },
+    [disable, disableAdd, disableReduce, isLessThanMin, isOverThanMax, value],
+  )
+  
+
+  const onAddStart = useCallback(() => {
+    let copyValue = value;
+    timer = setInterval(() => {
+      if (isOverThanMax(copyValue)) return clearInterval(timer);
+      copyValue += step;
+      onChange(copyValue);
+    }, 100);
+  }, [isOverThanMax, onChange, step, value]);
+
+  const onReduceStart = useCallback(() => {
+    let copyValue = value;
+    timer = setInterval(() => {
+      if (isLessThanMin(copyValue)) return clearInterval(timer);
+      copyValue -= step;
+      onChange(copyValue);
+    }, 100);
+  }, [value, step, onChange, isLessThanMin]);
+
+  useEffect(() => {
+    if (disable || disableAdd || disableReduce) clearInterval(timer);
+  }, [disable, disableAdd, disableReduce]);
 
   return (
     <div>
       <label>
         <Button
           name="reduce"
-          disabled={count - step < min || disable || disableReduce}
+          disabled={checkCanAddOrReduce('reduce')}
           value="-"
           onClick={() => {
-            if (!disable) {
-              onReduce();
-            }
+            if (checkCanAddOrReduce('reduce')) return;
+            onReduce(value);
+          }}
+          onMouseDown={() => {
+            onReduceStart();
+          }}
+          onMouseUp={() => {
+            clearInterval(timer);
           }}
         />
         <RefCounter
@@ -55,12 +119,17 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
         />
         <Button
           name="add"
-          disabled={count + step > max || disable || disableAdd}
+          disabled={checkCanAddOrReduce('add')}
           value="+"
           onClick={() => {
-            if (!disable) {
-              onAdd();
-            }
+            if (checkCanAddOrReduce('add')) return;
+            onAdd(value);
+          }}
+          onMouseDown={() => {
+            onAddStart();
+          }}
+          onMouseUp={() => {
+            clearInterval(timer);
           }}
         />
       </label>
