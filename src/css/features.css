@@ -52,17 +52,17 @@
   flex-direction: column;
 }
 
-.custom-counter-with-title {
+.guest-counter-with-title {
   display: flex;
   justify-content: space-between;
   margin: 10px 0;
 }
 
-.custom-counter-with-title span {
+.guest-counter-with-title span {
   font-size: 20px;
 }
 
-.custom-counter-with-title div:last-child {
+.guest-counter-with-title div:last-child {
   color: rgba(0, 0, 0, 0.6);
 }
 

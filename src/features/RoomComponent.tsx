@@ -45,7 +45,7 @@ export const RoomComponent = (props: RoomComponentProps) => {
       <div className="room-body">
         <div className="room-title">房間: {allCount()} 人</div>
         <div className="guest-counter-wrapper">
-          <div className="custom-counter-with-title">
+          <div className="guest-counter-with-title">
             <div className="guest-type">
               <span>大人</span>
               <div>年齡 20+</div>
@@ -65,7 +65,7 @@ export const RoomComponent = (props: RoomComponentProps) => {
               name="adult"
             />
           </div>
-          <div className="custom-counter-with-title">
+          <div className="guest-counter-with-title">
             <div className="guest-type">
               <span>小孩</span>
             </div>
