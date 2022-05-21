@@ -51,18 +51,13 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
   );
 
   const checkCanAddOrReduce = useCallback(
-    (type: 'add' | 'reduce') => {
-      if (type === 'add') {
-        return isOverThanMax(value) || disable || disableAdd;
-      }
-      if (type === 'reduce') {
-        return isLessThanMin(value) || disable || disableReduce;
-      }
+    (type: "add" | "reduce") => {
+      if (type === "add") return isOverThanMax(value) || disable || disableAdd;
+      if (type === "reduce") return isLessThanMin(value) || disable || disableReduce;
       return false;
     },
-    [disable, disableAdd, disableReduce, isLessThanMin, isOverThanMax, value],
-  )
-  
+    [disable, disableAdd, disableReduce, isLessThanMin, isOverThanMax, value]
+  );
 
   const onAddStart = useCallback(() => {
     let copyValue = value;
@@ -91,27 +86,21 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
       <label>
         <Button
           name="reduce"
-          disabled={checkCanAddOrReduce('reduce')}
+          disabled={checkCanAddOrReduce("reduce")}
           value="-"
           onClick={() => {
-            if (checkCanAddOrReduce('reduce')) return;
+            if (checkCanAddOrReduce("reduce")) return;
             onReduce(value);
           }}
-          onMouseDown={() => {
-            onReduceStart();
-          }}
-          onMouseUp={() => {
-            clearInterval(timer);
-          }}
+          onMouseDown={() => onReduceStart()}
+          onMouseUp={() => clearInterval(timer)}
         />
         <RefCounter
           ref={inputNumberEl}
           name={name}
           disabled={disable}
           value={value}
-          onChange={(e) => {
-            onChange(Number(e.target.value));
-          }}
+          onChange={(e) => onChange(Number(e.target.value))}
           onBlur={onBlur}
           min={min}
           max={max}
@@ -119,18 +108,14 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
         />
         <Button
           name="add"
-          disabled={checkCanAddOrReduce('add')}
+          disabled={checkCanAddOrReduce("add")}
           value="+"
           onClick={() => {
-            if (checkCanAddOrReduce('add')) return;
+            if (checkCanAddOrReduce("add")) return;
             onAdd(value);
           }}
-          onMouseDown={() => {
-            onAddStart();
-          }}
-          onMouseUp={() => {
-            clearInterval(timer);
-          }}
+          onMouseDown={() => onAddStart()}
+          onMouseUp={() => clearInterval(timer)}
         />
       </label>
     </div>

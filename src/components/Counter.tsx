@@ -19,6 +19,6 @@ const Counter = (props: InputHTMLAttributes<HTMLInputElement>, ref?: Ref<HTMLInp
       onBlur={onBlur}
     />
   );
-}
+};
 
 export const RefCounter = forwardRef(Counter);
