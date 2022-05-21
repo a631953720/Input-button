@@ -16,47 +16,34 @@ export const RoomAllocation = (props: RoomAllocationProps) => {
     { adult: 1, child: 0 },
   ]);
 
-  const getAllGuestCount = useCallback(
-    () => {
-      let count = 0;
-      result.forEach((v)=>{
-        count += v.adult;
-        count += v.child;
-      });
-      return count;
-    },
-    [result],
-  )
-  
+  const getAllGuestCount = useCallback(() => {
+    let count = 0;
+    result.forEach((v) => {
+      count += v.adult;
+      count += v.child;
+    });
+    return count;
+  }, [result]);
 
-  const handleSelected = useCallback(
-    () => {
-      return guest - getAllGuestCount();
-    },
-    [getAllGuestCount, guest],
-  )
+  const handleSelected = useCallback(() => {
+    return guest - getAllGuestCount();
+  }, [getAllGuestCount, guest]);
 
-  const isAllGuestSelectedRoom = useCallback(
-    () => {
-      return getAllGuestCount() >= guest;
-    },
-    [getAllGuestCount, guest],
-  )
-  
+  const isAllGuestSelectedRoom = useCallback(() => {
+    return getAllGuestCount() >= guest;
+  }, [getAllGuestCount, guest]);
 
   const updateResult = useCallback(
     (newRoomResult: Room, index: number) => {
       const newResult = result.map((v, i) => {
-        if (i !== index)
-          return v;
+        if (i !== index) return v;
         return newRoomResult;
       });
       setResult(newResult);
       onChange(newResult);
     },
-    [onChange, result],
-  )
-  
+    [onChange, result]
+  );
 
   return (
     <div>
@@ -66,24 +53,22 @@ export const RoomAllocation = (props: RoomAllocationProps) => {
       <div>尚未分配人數: {handleSelected()}</div>
       <hr></hr>
       <div>
-        {
-          result.map((v,i)=> {
-            return (
-              <RoomComponent
-                key={i}
-                max={4}
-                disable={isAllGuestSelectedRoom()}
-                // can choose only disable add or reduce button
-                // disableAdd={isAllGuestSelectedRoom()}
-                step={1}
-                room={v}
-                onChange={(_room) => {
-                  updateResult(_room, i);
-                }}
-              />
-            );
-          })
-        }
+        {result.map((v, i) => {
+          return (
+            <RoomComponent
+              key={i}
+              max={4}
+              disable={isAllGuestSelectedRoom()}
+              // can choose only disable add or reduce button
+              // disableAdd={isAllGuestSelectedRoom()}
+              step={1}
+              room={v}
+              onChange={(_room) => {
+                updateResult(_room, i);
+              }}
+            />
+          );
+        })}
       </div>
     </div>
   );
