@@ -1,5 +1,6 @@
 import React from "react";
 import { RoomAllocation } from "./features/RoomAllocation";
+import "./css/app.css";
 import "./css/components.css";
 import "./css/features.css";
 
