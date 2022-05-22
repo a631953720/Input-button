@@ -88,12 +88,9 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
   const handleOnChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const newValue = Number(e.target.value);
-      if (checkOnChangeValue(newValue)) {
-        setValue(newValue);
-        if (onChange) onChange(e);
-      }
+      if (onChange && checkOnChangeValue(newValue)) onChange(e);
     },
-    [checkOnChangeValue, onChange, setValue]
+    [checkOnChangeValue, onChange]
   );
 
   useEffect(() => {
